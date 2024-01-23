@@ -151,6 +151,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                             onPressed: () async {
                               filePickerBloc
                                   ?.add(FilePickerPickingEvent(result: result));
+                              // _showProgressNotification();
+                              // _updateProgress();
                               if (result == null) {
                                 ("No file selected");
                               } else {

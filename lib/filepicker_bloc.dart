@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:features_demo_file_picker/NOTIFICATION_LOCAL_SERVICE.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +31,26 @@ class FilePickerBloc extends Bloc<FilePickerEvent, FilePickerState> {
             const FilePickerResult(<PlatformFile>[]);
 
         if ((event.result?.files ?? []).isNotEmpty) {
+          try {
+            for (var i = 0; i < (event.result?.files.length ?? 0); i++) {
+              NotificationService notificationService = NotificationService();
+              notificationService.createNotification(
+                  100,
+                  ((10 / 10) * 100).toInt(),
+                  i,
+                  event.result?.files[i].name ?? "");
+
+              print(event.result?.files[i].name);
+            }
+            // NotificationService notificationService = NotificationService();
+            // notificationService.createNotification(
+            //     100,
+            //     ((10 / 10) * 100).toInt(),
+            //     1,
+            //     event.result?.files.first.name ?? "");
+          } catch (e) {
+            print(e);
+          }
           add(FilePickerLoadedEvent(result: event.result));
 
           ///* single file size
@@ -46,6 +67,7 @@ class FilePickerBloc extends Bloc<FilePickerEvent, FilePickerState> {
           // }
           // /
         } else {
+          add(FilePickerLoadedEvent(result: event.result));
           //add your code for changing UI here
           log("Nothing Picked From File Picker");
         }
